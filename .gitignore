@@ -7,6 +7,7 @@
 /bin
 /out
 /models
+/visualization
 
 # File extensions that Git should ignore
 
