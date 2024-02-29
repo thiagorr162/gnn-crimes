@@ -1,4 +1,4 @@
-def create_grid_given_lat_long(N, df):
+def create_grid(N, df):
     passo_X = (df["longitude"].max() - df["longitude"].min()) / N
     passo_Y = (df["latitude"].max() - df["latitude"].min()) / N
 
