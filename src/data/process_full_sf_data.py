@@ -49,24 +49,32 @@ processed_data.drop(columns=["location"], inplace=True)
 
 # Processing string columns
 processed_data["Category"] = processed_data["Category"].str.lower()
+processed_data["Category"] = processed_data["Category"].str.replace(",", "")
 processed_data["Category"] = processed_data["Category"].str.strip()
 processed_data["Category"] = processed_data["Category"].str.replace(" ", "_")
-processed_data["Category"] = processed_data["Category"].str.replace(",", " ")
 
 processed_data["Descript"] = processed_data["Descript"].str.lower()
+processed_data["Descript"] = processed_data["Descript"].str.replace(",", "")
 processed_data["Descript"] = processed_data["Descript"].str.strip()
-processed_data["Descript"] = processed_data["Descript"].str.replace(",", " ")
 
 processed_data["DayOfWeek"] = processed_data["DayOfWeek"].str.lower()
+processed_data["DayOfWeek"] = processed_data["DayOfWeek"].str.replace(",", "")
 processed_data["DayOfWeek"] = processed_data["DayOfWeek"].str.strip()
-processed_data["DayOfWeek"] = processed_data["DayOfWeek"].str.replace(",", " ")
 
 processed_data["Resolution"] = processed_data["Resolution"].str.lower()
+processed_data["Resolution"] = processed_data["Resolution"].str.replace(",", "")
 processed_data["Resolution"] = processed_data["Resolution"].str.strip()
-processed_data["Resolution"] = processed_data["Resolution"].str.replace(",", " ")
 
 # Create Column with day of week number
-day_str_to_int = {"monday": 1, "tuesday": 2, "wednesday": 3, "thursday": 4, "friday": 5, "saturday": 6, "sunday": 7}
+day_str_to_int = {
+    "monday": 1,
+    "tuesday": 2,
+    "wednesday": 3,
+    "thursday": 4,
+    "friday": 5,
+    "saturday": 6,
+    "sunday": 7,
+}
 processed_data["day_number"] = processed_data["DayOfWeek"].map(day_str_to_int)
 
 # Change string None to NaN
@@ -75,6 +83,5 @@ processed_data = processed_data.replace("none", np.nan)
 
 # Make all columns names lower case
 processed_data.columns = [x.lower() for x in processed_data.columns]
-
 
 processed_data.to_csv(processed_data_output_path / "processed_full_sf.csv")
