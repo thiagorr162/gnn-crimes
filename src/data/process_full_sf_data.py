@@ -86,6 +86,4 @@ processed_data.columns = [x.lower() for x in processed_data.columns]
 
 processed_data = processed_data.sort_values(by="datetime")
 
-breakpoint()
-
-processed_data.to_csv(processed_data_output_path / "processed_full_sf.csv")
+processed_data.to_csv(processed_data_output_path / "processed_full_sf.csv", index=False)
