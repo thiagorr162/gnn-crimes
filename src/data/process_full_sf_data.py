@@ -65,6 +65,10 @@ processed_data["Resolution"] = processed_data["Resolution"].str.lower()
 processed_data["Resolution"] = processed_data["Resolution"].str.strip()
 processed_data["Resolution"] = processed_data["Resolution"].str.replace(",", " ")
 
+# Create Column with day of week number
+day_str_to_int = {"monday": 1, "tuesday": 2, "wednesday": 3, "thursday": 4, "friday": 5, "saturday": 6, "sunday": 7}
+processed_data["day_number"] = processed_data["DayOfWeek"].map(day_str_to_int)
+
 # Change string None to NaN
 processed_data = processed_data.replace("none", np.nan)
 
