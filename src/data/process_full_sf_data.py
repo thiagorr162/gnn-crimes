@@ -35,7 +35,7 @@ processed_data["timestamp"] = processed_data["datetime"].astype("int64")
 processed_data["timestamp"] = processed_data["timestamp"].divide(10**9)
 processed_data["timestamp"] = processed_data["timestamp"] - processed_data["timestamp"].min()
 
-processed_data.drop(columns=["Date", "Time", "datetime"], inplace=True)
+processed_data.drop(columns=["Date", "Time"], inplace=True)
 
 
 # Creating lat/lon columns
@@ -83,5 +83,9 @@ processed_data = processed_data.replace("none", np.nan)
 
 # Make all columns names lower case
 processed_data.columns = [x.lower() for x in processed_data.columns]
+
+processed_data = processed_data.sort_values(by="datetime")
+
+breakpoint()
 
 processed_data.to_csv(processed_data_output_path / "processed_full_sf.csv")
