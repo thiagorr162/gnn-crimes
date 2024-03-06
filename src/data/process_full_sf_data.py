@@ -3,9 +3,9 @@ import pathlib
 import numpy as np
 import pandas as pd
 
-raw_data_path = "data/raw/full_sf.csv"
+raw_data_path = "data/raw/sf/csv/full_sf.csv"
 
-processed_data_output_path = pathlib.Path("data/processed")
+processed_data_output_path = pathlib.Path("data/processed/sf")
 processed_data_output_path.mkdir(parents=True, exist_ok=True)
 
 raw_data = pd.read_csv(raw_data_path)
