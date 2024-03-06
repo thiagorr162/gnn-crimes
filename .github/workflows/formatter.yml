@@ -15,9 +15,14 @@ jobs:
         run: pip install black autopep8 isort
       - name: Formatter
         run: |
-          git diff --name-only | xargs black
-          git diff --name-only | xargs autopep8 --recursive --in-place --aggressive --aggressive
-          git diff --name-only | xargs isort
+          modified_files=$(git diff --name-only --diff-filter=ACMR ${{ github.event.before }} ${{ github.sha }})
+
+          # Loop através dos arquivos modificados e aplicação de formatação
+          for file in $modified_files; do
+            black "$file"
+            autopep8 --in-place --recursive --aggressive --aggressive "$file"
+            isort "$file"
+          done
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
