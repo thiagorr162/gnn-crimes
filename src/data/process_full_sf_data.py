@@ -80,6 +80,49 @@ processed_data["day_number"] = processed_data["DayOfWeek"].map(day_str_to_int)
 # Change string None to NaN
 processed_data = processed_data.replace("none", np.nan)
 
+reduced_categories = {
+    "robbery": "crimes_against_property",
+    "arson": "crimes_against_property",
+    "assault": "crimes_against_person",
+    "vehicle_theft": "crimes_against_property",
+    "burglary": "crimes_against_property",
+    "larceny/theft": "crimes_against_property",
+    "warrants": "legal_and_judicial_matters",
+    "other_offenses": "other",
+    "trespass": "public_order_offenses",
+    "drug/narcotic": "drugs_and_alcohol_related_offenses",
+    "suspicious_occ": "suspicious_incidents",
+    "liquor_laws": "drugs_and_alcohol_related_offenses",
+    "vandalism": "public_order_offenses",
+    "weapon_laws": "public_order_offenses",
+    "non-criminal": "other",
+    "missing_person": "crimes_against_person",
+    "fraud": "financial_crimes",
+    "sex_offenses_forcible": "crimes_against_person",
+    "secondary_codes": "other",
+    "disorderly_conduct": "public_order_offenses",
+    "recovered_vehicle": "crimes_against_property",
+    "kidnapping": "crimes_against_person",
+    "forgery/counterfeiting": "financial_crimes",
+    "prostitution": "crimes_against_person",
+    "drunkenness": "drugs_and_alcohol_related_offenses",
+    "bad_checks": "financial_crimes",
+    "driving_under_the_influence": "drugs_and_alcohol_related_offenses",
+    "loitering": "public_order_offenses",
+    "stolen_property": "crimes_against_property",
+    "suicide": "crimes_against_person",
+    "bribery": "financial_crimes",
+    "extortion": "financial_crimes",
+    "embezzlement": "financial_crimes",
+    "gambling": "financial_crimes",
+    "pornography/obscene_mat": "crimes_against_person",
+    "sex_offenses_non_forcible": "crimes_against_person",
+    "trea": "other",
+}
+
+
+processed_data["reduced_categories"] = processed_data["Category"].map(reduced_categories)
+
 
 # Make all columns names lower case
 processed_data.columns = [x.lower() for x in processed_data.columns]
