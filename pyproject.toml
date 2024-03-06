@@ -18,6 +18,7 @@ wget = "^3.2"
 gdown = "^5.1.0"
 folium = "^0.15.1"
 scikit-learn = "^1.4.1.post1"
+types-requests = "^2.31.0.20240218"
 
 [tool.black]
 line-length = 120
