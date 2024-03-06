@@ -15,13 +15,13 @@ jobs:
         run: pip install black autopep8 isort
       - name: Formatter
         run: |
-          black .
-          autopep8 --recursive --in-place --aggressive --aggressive .
-          isort .
+          git diff --name-only | xargs black
+          git diff --name-only | xargs autopep8 --recursive --in-place --aggressive --aggressive
+          git diff --name-only | xargs isort
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          commit-message: Auto code format
+          commit-message: Format code automatically
           title: Fixes by format action
           body: This is an auto-generated PR with fixes.
           labels: automated pr
