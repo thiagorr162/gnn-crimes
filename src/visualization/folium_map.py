@@ -21,7 +21,7 @@ parser.add_argument(
     help="Spatial grid coordiantes. E.g. [0 1 2 3] will user x from 0 to 1 and y from 2 to 3.",
     nargs="+",
     type=int,
-    default=[0, 1, 2, 3],
+    default=[0, 10, 0, 10],
 )
 parser.add_argument(
     "-t",
@@ -62,6 +62,33 @@ restricted_df = restrict_dataset(
     t_final,
 )
 
+colors = [
+    "red",
+    "blue",
+    "green",
+    "purple",
+    "orange",
+    "darkred",
+    "lightred",
+    "beige",
+    "darkblue",
+    "darkgreen",
+    "cadetblue",
+    "darkpurple",
+    "white",
+    "pink",
+    "lightblue",
+    "lightgreen",
+    "gray",
+    "black",
+    "lightgray",
+]
+
+categories_colors = {}
+
+for i, cat in enumerate(restricted_df["reduced_categories"].unique()):
+    categories_colors[cat] = colors[i]
+
 
 folium_map = folium.Map(prefer_canvas=True)
 
@@ -71,10 +98,16 @@ for i in range(n_rows):
     lat = restricted_df.iloc[i]["latitude"]
     lon = restricted_df.iloc[i]["longitude"]
 
+    reduced_cat = restricted_df.iloc[i]["reduced_categories"]
+
+    color = categories_colors[reduced_cat]
+
     folium.CircleMarker(
         location=[lat, lon],
         radius=2,
         weight=5,
+        color=color,
+        tooltip=reduced_cat,
     ).add_to(folium_map)
 
 # Set the zoom to the maximum possible
