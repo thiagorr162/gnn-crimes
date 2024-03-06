@@ -8,4 +8,4 @@ y=pd.DataFrame([])
 
 a=pathlib.Path("personal/oi/")
 
-print(x,y,a)
+print(x, y,a)
