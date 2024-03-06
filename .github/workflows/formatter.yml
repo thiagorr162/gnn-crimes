@@ -26,7 +26,7 @@ jobs:
       - name: Formatter
         run: |
           # Obtendo arquivos modificados
-          modified_files=$(git diff --name-only --diff-filter=ACMR ${{ github.event.before }} ${{ github.sha }})
+          modified_files=$(git diff --name-only --diff-filter=ACMR HEAD^ HEAD)
 
           # Loop através dos arquivos modificados e aplicação de formatação
           for file in $modified_files; do
