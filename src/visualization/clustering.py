@@ -18,10 +18,10 @@ final_date = "2017-05-01"
 
 restricted_df = df.loc[(df["datetime"] >= initial_date) & (df["datetime"] <= final_date)]
 
-restricted_df["has_resolution"] = restricted_df["resolution"].notna() * 0.5
+# restricted_df["has_resolution"] = restricted_df["resolution"].notna() * 0.1
 
-# category_dummies = pd.get_dummies(restricted_df["category"]) * 0.01
-# restricted_df = restricted_df.join(category_dummies)
+category_dummies = pd.get_dummies(restricted_df["reduced_categories"]) * 0.1
+restricted_df = restricted_df.join(category_dummies)
 
 restricted_df = restricted_df.drop(
     columns=[
@@ -31,6 +31,7 @@ restricted_df = restricted_df.drop(
         "timestamp",
         "resolution",
         "category",
+        "reduced_categories",
         "day",
         "month",
         "year",
@@ -65,25 +66,31 @@ color_map = {i: colors[i] for i in range(len(colors))}
 
 
 kmeans = KMeans(
-    n_clusters=3,
+    n_clusters=5,
     random_state=0,
 ).fit(restricted_df)
+
+
 restricted_df["kmeans_cluster"] = kmeans.predict(restricted_df)
 restricted_df["kmeans_cluster"] = restricted_df["kmeans_cluster"].map(color_map)
 
 
 folium_map = folium.Map(prefer_canvas=True)
 
+n_rows, n_columns = restricted_df.shape
 
-def plotDot(point):
-    """input: series that contains a numeric named latitude and a numeric named longitude
-    this function creates a CircleMarker and adds it to your this_map"""
+for i in range(n_rows):
+    lat = restricted_df.iloc[i]["latitude"]
+    lon = restricted_df.iloc[i]["longitude"]
+
+    color = restricted_df.iloc[i]["kmeans_cluster"]
+
     folium.CircleMarker(
-        location=[point["latitude"], point["longitude"]], radius=2, weight=5, color=point["kmeans_cluster"]
+        location=[lat, lon],
+        radius=2,
+        weight=3,
+        color=color,
     ).add_to(folium_map)
-
-
-restricted_df.apply(plotDot, axis=1)
 
 folium_map.fit_bounds(folium_map.get_bounds())
 
