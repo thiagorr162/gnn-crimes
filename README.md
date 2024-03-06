@@ -4,12 +4,22 @@
 
 All python packages necessary to run our code are in the `pyproject.toml` file. We suggest the use of Poetry for package dependency management.
 
-## Datasets Download
+### How to Download San Francisco Dataset
 
-To download the datasets used in our project, go to the root project directory and run the following script
+To download SF dataset, go to the root project directory and run the following script
 
 ```
-python src/data/download_data.py
+python src/data/download_sf_data.py
 ```
 
-This will create a folder `data/raw` in the root directory with the raw datasets. 
+This will create a folder `data/raw/sf` in the root directory with the raw dataset.
+
+### How to Process San Francisco Dataset
+
+To process SF dataset, go to the root project directory and run the following script
+
+```
+python src/data/process_full_sf_data.py
+```
+
+This will create a folder `data/processed/sf` in the root directory with the processed dataset.
