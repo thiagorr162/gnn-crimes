@@ -3,7 +3,7 @@ import pathlib
 import numpy as np
 
 
-x= np.arange(10)
+x=np.arange(10)
 y= pd.DataFrame([])
 
 a=pathlib.Path("personal/oi/")
