@@ -3,16 +3,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# ---------------------------------------------------------------------- TRATAMENTO DO DATASET ------------------------------------------------------------
+# ---------------------------------------------------------------------- T
 print("Reading dataset")
 data = pd.read_csv("data/SF-Full_2003-2018.csv")
 print("Done!")
-## retirando posições que não fazem sentido
+# retirando posições que não fazem sentido
 
 print("Processing dataset")
 data = data[data["Y"] != 90].reset_index(drop=True)
 
-## Retirando features inexpressivos para nós
+# Retirando features inexpressivos para nós
 
 data.drop(columns=data.columns[14:], inplace=True)
 data.drop(columns=data.columns[:3], inplace=True)
@@ -24,7 +24,7 @@ data[["month", "day", "year"]] = data["Date"].str.split("/", expand=True)
 data["datetime"] = data["year"] + "-" + data["month"] + "-" + data["day"] + " " + data["Time"] + ":00"
 
 
-## Transformando as informações de data e hora em timestamp, para facilitar o tratamento
+# Transformando as informações de data e hora em timestamp, para facilitar o tratamento
 
 data["datetime"] = pd.to_datetime(data["datetime"])
 
@@ -37,7 +37,7 @@ data["timestamp"] = data["timestamp"].divide(10**9)
 data.drop(columns=["Date", "Time", "datetime"], inplace=True)
 
 
-## Shiftando os timestamps, subtraindo o menor de todos os outros e tranformando coordenas lon/lat em km
+# Shiftando os timestamps, subtraindo o menor de todos os outros e tranformando coordenas lon/lat em km
 data["location"] = data["location"].str.replace("POINT (", "", regex=False)
 data["location"] = data["location"].str.replace(")", "", regex=False)
 data[["lon", "lat"]] = data["location"].str.split(" ", expand=True)
@@ -49,13 +49,13 @@ data["timestamp"] = data["timestamp"] - data["timestamp"].min()
 
 
 print("Finished")
-# ------------------------------------------------------------------------------ FUNÇÕES ---------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 
-## Primeira função: Divide o mapa de São Francisco em NxN grids e nos dá os pares de coordenadas de cada vértice
-## assim, se quisermos em alguma outra função selecionar um único grid para análise, precisaremos de 4 pares de
-## coordenadas dessa lista, teremos os limitadores tanto em X quanto em Y a partir deles e poderemos observar todos
-## as ocorrências neste limite
+# Primeira função: Divide o mapa de São Francisco em NxN grids e nos dá os pares de coordenadas de cada vértice
+# assim, se quisermos em alguma outra função selecionar um único grid para análise, precisaremos de 4 pares de
+# coordenadas dessa lista, teremos os limitadores tanto em X quanto em Y a partir deles e poderemos observar todos
+# as ocorrências neste limite
 
 # funções auxiliares
 
@@ -74,9 +74,9 @@ def vert_list(N, df):
 
 teste = vert_list(10, data)
 
-## Segunda função: Recebe o nosso dataframe, 4 coordenadas, um x inicial e um final, um y inicial e um final
-## e um intervalo de tempo em segundos. Nos devolve um dataframe reduzido contendo os dados da região
-## dentro do intervalo espacial no intervalo de tempo pedido.
+# Segunda função: Recebe o nosso dataframe, 4 coordenadas, um x inicial e um final, um y inicial e um final
+# e um intervalo de tempo em segundos. Nos devolve um dataframe reduzido contendo os dados da região
+# dentro do intervalo espacial no intervalo de tempo pedido.
 
 
 def df_reduzido(df, x_initial, x_final, y_initial, y_final, t_initial, t_final):
@@ -95,7 +95,7 @@ def df_reduzido(df, x_initial, x_final, y_initial, y_final, t_initial, t_final):
 new_df = df_reduzido(data, teste[0][0], teste[0][1], teste[1][8], teste[1][9], 0, data["timestamp"].max())
 
 
-### ----------------------------------------------------------------- MAPA -----------------------------------------------------------------------
+# ----------------------------------------------------------------- MAPA -
 
 
 # create a map

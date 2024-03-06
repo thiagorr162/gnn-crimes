@@ -1,11 +1,11 @@
-import pandas as pd
 import pathlib
+
 import numpy as np
+import pandas as pd
 
+x = np.arange(10)
+y = pd.DataFrame([])
 
-x=np.arange(10)
-y= pd.DataFrame([])
+a = pathlib.Path("personal/oi/")
 
-a=pathlib.Path("personal/oi/")
-
-print(x,y,a)
+print(x, y, a)
