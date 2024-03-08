@@ -738,6 +738,22 @@ pyproj = ">=3.3.0"
 shapely = ">=1.8.0"
 
 [[package]]
+name = "hydrobr"
+version = "0.1.1"
+description = "HydroBr is an open-source package to work with Brazilian hydrometeorological time series."
+optional = false
+python-versions = "*"
+files = [
+    {file = "hydrobr-0.1.1.tar.gz", hash = "sha256:d2d4b0f59be2ba666e18e178cfb58391910f71c517f223814e22ea8680b8786d"},
+]
+
+[package.dependencies]
+pandas = ">=0.25"
+plotly = ">=4.6.0"
+requests = ">=2.21"
+tqdm = ">=4.31"
+
+[[package]]
 name = "identify"
 version = "2.5.35"
 description = "File identification library for Python"
@@ -2372,4 +2388,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "2d4a9e8c7e103113bccf4ebd19128cb889d4cb6157dfc08f63df127582cd663a"
+content-hash = "87e1accd5de0413e37166bb86a9f07e08a0f0a4a52a472ac4518917b39f32f9c"
