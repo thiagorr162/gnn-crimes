@@ -1,6 +1,7 @@
 # Folders that Git should ignore
 
 *.ipynb_checkpoints/
+*.mypy_cache/
 /data
 /docs
 /personal
