@@ -1294,6 +1294,31 @@ files = [
 ]
 
 [[package]]
+name = "osmnx"
+version = "1.9.1"
+description = "Download, model, analyze, and visualize street networks and other geospatial features from OpenStreetMap"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "osmnx-1.9.1-py3-none-any.whl", hash = "sha256:804790b4963f915ca172f56ef27a9bd62347c44616902a1c8a12dc3d94737f4b"},
+    {file = "osmnx-1.9.1.tar.gz", hash = "sha256:0c28e32755b27110b0dc140b74f7b66ba9d037f4a246dab8fb50d9383334e311"},
+]
+
+[package.dependencies]
+geopandas = ">=0.12"
+networkx = ">=2.5"
+numpy = ">=1.20"
+pandas = ">=1.1"
+requests = ">=2.27"
+shapely = ">=2.0"
+
+[package.extras]
+entropy = ["scipy (>=1.5)"]
+neighbors = ["scikit-learn (>=0.23)", "scipy (>=1.5)"]
+raster = ["gdal", "rasterio (>=1.3)"]
+visualization = ["matplotlib (>=3.5)"]
+
+[[package]]
 name = "packaging"
 version = "23.2"
 description = "Core utilities for Python packages"
@@ -2388,4 +2413,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "87e1accd5de0413e37166bb86a9f07e08a0f0a4a52a472ac4518917b39f32f9c"
+content-hash = "ef93b881af002942907602078fab6a21a9dfb4d9feb8635ff8a790d6683c5e54"
