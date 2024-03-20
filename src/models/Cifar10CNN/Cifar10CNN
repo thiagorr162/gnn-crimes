@@ -1,0 +1,107 @@
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+import numpy as np
+
+
+
+device = (
+    "cuda"
+    if torch.cuda.is_available()
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
+)
+
+#receives 2 tensors and returns how many elements are equal
+def countEqual(preds, labels):
+    preds = preds.to(device)
+    labels = labels.to(device)
+    nEqual = preds.eq(labels).sum().item()
+    return nEqual
+
+
+class CNN(nn.Module):
+    def __init__(self, learningRate):
+        super().__init__()
+        #layer creation
+        #32x32x3 (width heigh rgb)
+        N_CHANNELS1 = 16
+        N_CHANNELS2 = 64
+        N_OUTPUT = 10
+        self.layers = nn.Sequential(
+            torch.nn.Conv2d(3, N_CHANNELS1, (3,3), 1, 1),
+            torch.nn.BatchNorm2d(N_CHANNELS1),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d((2,2), 2, 1),
+            torch.nn.Dropout(0.25),
+            torch.nn.Conv2d(N_CHANNELS1, N_CHANNELS2, (3,3), 1, 1),
+            torch.nn.BatchNorm2d(N_CHANNELS2),
+            torch.nn.ReLU(),
+            torch.nn.MaxPool2d((2,2), 2, 1),
+            torch.nn.Dropout(0.25),
+            torch.nn.Flatten(),
+            torch.nn.Linear(5184, 512),
+            torch.nn.ReLU(),
+            torch.nn.Linear(512, 10)
+
+
+
+        )
+        #defining loss and optimizer
+        self.loss_fn = nn.CrossEntropyLoss()
+        self.optimizer = torch.optim.Adam(self.parameters(),lr=learningRate)
+    #function that defines feedforward operations
+    def forward(self, x):
+        x = x.to(device)
+        return self.layers(x)
+
+    def test(self, testLoader):
+        #there is no need to keep track of the computational graph during test
+        totalSamples = 0
+        correctGuesses = 0
+        with torch.inference_mode():
+            for i, data in enumerate(testLoader):
+              features, label = data
+              totalSamples += len(features)
+              logits = self(features)
+              predictions = torch.argmax(logits, dim=1)
+              correctGuesses += countEqual(predictions, label)
+
+
+        acc = correctGuesses / totalSamples
+        print(f"Accuracy of {acc:.4f} ")
+
+
+    def trainModel(self, trainLoader, epochs):
+
+
+
+        self.train()
+        #training loop
+        for epoch in range(0, epochs):
+          print(f"Epoch {epoch} beginning \n" + "-"*20)
+          #array to store losses so we can calculate the average loss per epoch
+          lossArray = np.array([])
+          #loop through batches provided by training loader
+          for i, data in enumerate(trainLoader):
+              features, label = data
+              features = features.to(device)
+              label = label.to(device)
+              self.optimizer.zero_grad()
+              #since it's a image, it must be flattened
+
+              logits = self(features)
+              #CrossEntropyLoss already has a softmax layer, that's why we don't pass pred as argument
+              loss = self.loss_fn(logits, label)
+              #backwards propagation and optimization
+              loss.backward()
+              self.optimizer.step()
+              #checks loss
+              if i % 20 == 0:
+                  print(f"Batch:{i}, Epoch{epoch}, Loss:{loss}")
+                  #self.test(X_test, Y_test)
+              lossArray = np.append(lossArray, loss.item())
+          print(f"Epoch {epoch} has finished, avg loss: {np.mean(lossArray)} \n" + "-"*20)
+        #change back to eval mode
+        self.eval()
